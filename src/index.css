@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --primary: #ABE7B2;
+  --core-primary: #23B133;
+  --background: #FFFFFF;
+  --secondary-background: #EFEFEF;
+  --foreground: #1B1B1B;
+  --muted: #666666;
+  --danger: #FF0000;
+
+  --shadow-custom: 12px 12px 80px 0px rgba(0, 0, 0, 0.1);
+}
+
+@theme {
+  --color-primary: var(--primary);
+  --color-core-primary: var(--core-primary);
+  --color-background: var(--background);
+  --color-secondary-background: var(--secondary-background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-danger: var(--danger);
+
+  --shadow-main: var(--shadow-custom);
+}
+
+*,
+html,
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.scroll-bar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#doctor_table::-webkit-scrollbar {
+  display: block;
+  background: var(--text);
+  height: 4px;
+  border-radius: 3px;
+}
+
+body {
+  background: var(--color-white);
+  font-family: 'Poppins', sans-serif;
+}
+
+@layer base {
+
+  html,
+  body {
+    font-family: var(--font-poppins);
+  }
+
+  :where(.ant-dev-only-do-not-override) {
+    font-family: var(--font-poppins) !important;
+  }
+}
+
+@layer utilities {
+  .aut-input {
+    @apply !h-[56px] !bg-secondary-background/50 !border-none !rounded-[10px] !font-semibold 
+  }
+
+
+  .global-padding {
+    @apply px-5 md:px-12 lg:px-20
+  }
+
+  .start-start {
+    @apply flex justify-start items-start;
+  }
+
+  .start-center {
+    @apply flex justify-start items-center;
+  }
+
+  .center-center {
+    @apply flex justify-center items-center;
+  }
+
+  .between-center {
+    @apply flex justify-between items-center;
+  }
+
+  .end-center {
+    @apply flex justify-end items-center;
+  }
+
+  .button-white {
+    @apply px-8 py-3 rounded-md flex justify-start items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--bg-black)] transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100;
+  }
+
+  .button-red {
+    @apply px-8 py-3 rounded-md flex justify-center items-center w-fit gap-2 text-[var(--color-white)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100;
+  }
+
+  .button-green {
+    @apply px-4 py-1 rounded-3xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-white)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100;
+  }
+
+  .button-blue {
+    @apply px-4 py-1 rounded-3xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-blue)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100;
+  }
+
+  .links.active {
+    @apply relative;
+  }
+
+  .links:hover {
+    @apply relative;
+  }
+
+  .links.active::after {
+    @apply h-full w-2 bg-[var(--primary)] rounded-br-full rounded-tr-full absolute -left-4;
+  }
+}
+
+.links::after {
+  content: '';
+}
+
+
+/* 1. Remove background from the main table container */
+.ant-table {
+  background: transparent !important;
+}
+
+/* 2. Header: Remove background and styling headers */
+.ant-table-thead>tr>th {
+  background: transparent !important;
+  /* Requirement met */
+  color: #6B7280 !important;
+  /* Muted gray text */
+  border-bottom: none !important;
+  font-weight: 500 !important;
+  padding-bottom: 16px !important;
+  /* Space between header and first card */
+}
+
+/* 3. Body: Remove global background */
+.ant-table-tbody {
+  background: transparent !important;
+  /* Requirement met */
+}
+
+/* 4. Individual Rows: White background, Shadow, and Rounded Corners */
+.ant-table-tbody>tr {
+  background: #ffffff !important;
+  /* Requirement met */
+  border-radius: 12px !important;
+}
+
+/* 5. Creating the Gap between rows */
+.ant-table-tbody>tr>td {
+  /* This creates the vertical gap. Color should match your page background */
+  padding: 20px 16px !important;
+  transition: background 0.3s;
+}
+
+/* 6. Rounding the corners of the individual Card Rows */
+.ant-table-tbody>tr>td:first-child {
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+}
+
+.ant-table-tbody>tr>td:last-child {
+  border-top-right-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+/* 7. Handling the Hover State (Ensuring it stays white) */
+/* .ant-table-tbody>tr:hover>td {
+  background: #ffffff !important;
+} */
+
+.ant-table-cell {
+  background-color: #ffffff !important;
+}
+
+/* 8. Remove default Ant Table borders */
+.ant-table-container,
+.ant-table-container table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: none !important;
+}
