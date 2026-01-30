@@ -6,12 +6,14 @@ import DashboardHome from "../pages/Dashboard/DashboardHome";
 import Profile from "../pages/Dashboard/Profile";
 import TermsAndConditions from "../pages/Dashboard/TermsAndConditions";
 import PrivacyPolicy from "../pages/Dashboard/PrivacyPolicy";
-import DriverManagement from "../pages/Dashboard/DriverManagement";
-import DriverDetails from "../pages/Dashboard/specific/DriverDetails";
-import ParcelManagement from "../pages/Dashboard/ParcelManagement";
-import SupportChat from "../pages/Dashboard/SupportChat";
-import RefundManagement from "../pages/Dashboard/RefundManagement";
+import OrderDetails from "../pages/Dashboard/specific/OrderDetails";
 import Notification from "../pages/Dashboard/Notification";
+import CompletedOrder from "../pages/Dashboard/CompletedOrder";
+import CanceledOrder from "../pages/Dashboard/CanceledOrder";
+import UserManagement from "../pages/Dashboard/UserManagement";
+import NewSupplierRequest from "../pages/Dashboard/NewSupplierRequest";
+import SupplierManagement from "../pages/Dashboard/SupplierManagement";
+import AdminManagement from "../pages/Dashboard/AdminManagement";
 
 export const dashboardRoutes = {
   path: "/",
@@ -24,11 +26,15 @@ export const dashboardRoutes = {
   children: [
     { path: "/", element: <DashboardHome /> },
     { path: "/order-request", element: <OrderRequest /> },
-    { path: "/commuter-driver", element: <DriverManagement /> },
-    { path: "/commuter-driver/:id", element: <DriverDetails /> },
-    { path: "/parcel-management", element: <ParcelManagement /> },
-    { path: "/refund-request", element: <RefundManagement /> },
-    { path: "/support-chat", element: <SupportChat /> },
+    { path: "/order-request/:id", element: <OrderDetails /> },
+    { path: "/completed-order", element: <CompletedOrder /> },
+    { path: "/complect-order/:id", element: <OrderDetails /> },
+    { path: "/canceled-order", element: <CanceledOrder /> },
+    { path: "/canceled-order/:id", element: <OrderDetails /> },
+    { path: "/user-management", element: <UserManagement /> },
+    { path: "/new-supplier-request", element: <NewSupplierRequest /> },
+    { path: "/supplier-management", element: <SupplierManagement /> },
+    { path: "/admin-management", element: <AdminManagement /> },
     { path: "/notification", element: <Notification /> },
     { path: "/profile", element: <Profile /> },
     { path: "/privacy-policy", element: <PrivacyPolicy /> },

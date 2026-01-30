@@ -1,11 +1,14 @@
-import { Modal } from "antd";
-import { MdCheckCircle, MdCancel } from "react-icons/md";
+import React from "react";
+import { Button, Modal } from "antd";
+import { PiSealWarningFill } from "react-icons/pi";
+import { primaryBtn, secondaryBtn } from "../../constant/btnStyle";
 
 interface IApproveRejectModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
   onConfirm: () => void;
   type: "APPROVE" | "REJECT";
+  name: string;
   isLoading?: boolean;
 }
 
@@ -14,6 +17,7 @@ const ApproveRejectModal = ({
   setIsModalOpen,
   onConfirm,
   type,
+  name,
   isLoading,
 }: IApproveRejectModalProps) => {
   const isApprove = type === "APPROVE";
@@ -24,64 +28,48 @@ const ApproveRejectModal = ({
       onCancel={() => setIsModalOpen(false)}
       footer={null}
       centered
-      width={400}
+      width={450}
       closable={false}
-      maskClosable={false}
-      className="action-confirm-modal"
     >
-      <div className="flex flex-col items-center text-center">
-        {/* Icon Container - Blue for Approve, Red for Reject */}
-        <div
-          className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 ${
-            isApprove ? "bg-blue-50" : "bg-red-50"
-          }`}
-        >
-          {isApprove ? (
-            <MdCheckCircle className="text-[#255779]" size={40} />
-          ) : (
-            <MdCancel className="text-[#D90429]" size={40} />
-          )}
+      <div className="flex flex-col items-center text-center py-6">
+        {/* Jagged Badge Icon */}
+        <div className="relative mb-6">
+          <PiSealWarningFill 
+            className={isApprove ? "text-green-500" : "text-red-200"} 
+            size={100} 
+          />
+          <span className={`absolute inset-0 flex items-center justify-center text-3xl font-bold ${isApprove ? 'text-white' : 'text-red-500'}`}>
+            !
+          </span>
         </div>
 
-        {/* Title & Description */}
-        <h2 className="text-2xl font-bold text-[#255779] mb-2">
-          {isApprove ? "Approve Driver" : "Reject Driver"}
-        </h2>
-        <p className="text-gray-500 text-base mb-8 px-4">
-          {isApprove
-            ? "Are you sure you want to approve this driver? They will gain access to the platform."
-            : "Are you sure you want to reject this driver? They will not be able to join as a driver."}
+        <h2 className="text-xl font-bold text-black mb-2">Are You Sure</h2>
+        <p className="text-gray-600 font-medium mb-10">
+          Do You Want To <span className={isApprove ? "text-core-primary" : "text-danger"}>
+            {isApprove ? "Approve" : "Reject"}
+          </span> {name}
         </p>
 
-        {/* Action Buttons */}
-        <div className="flex w-full gap-4">
-          <button
+        <div className="flex w-full gap-4 px-4">
+          <Button
             onClick={() => setIsModalOpen(false)}
-            disabled={isLoading}
-            className="flex-1 py-3 px-4 border border-[#255779] text-[#255779] rounded-lg font-semibold hover:bg-gray-50 transition-colors cursor-pointer duration-300 disabled:opacity-50"
+            style={secondaryBtn}
+            className="flex-1"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onConfirm}
             disabled={isLoading}
-            className={`flex-1 py-3 px-4 text-white rounded-lg font-semibold transition-colors cursor-pointer duration-300 disabled:opacity-50 ${
-              isApprove
-                ? "bg-[#255779] hover:bg-[#1a3e57]"
-                : "bg-[#D90429] hover:bg-red-700"
+            style={primaryBtn}
+            className={`flex-1  ${
+              isApprove ? "bg-primary hover:!bg-core-primary/70" : "bg-light-red hover:!bg-danger/70"
             }`}
           >
-            {isLoading ? "Updating..." : isApprove ? "Approve" : "Reject"}
-          </button>
+            {isLoading ? "..." : isApprove ? "Approve" : "Reject"}
+          </Button>
         </div>
       </div>
-
-      <style>{`
-        .action-confirm-modal .ant-modal-content {
-          border-radius: 16px !important;
-          padding: 24px !important;
-        }
-      `}</style>
     </Modal>
   );
 };

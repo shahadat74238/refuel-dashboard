@@ -1,6 +1,6 @@
 import type { ColumnsType } from "antd/es/table";
 
-export interface IOrderRequest {
+export interface ICanceledOrder {
   _id: string;
   customer_name: string;
   customer_email: string;
@@ -13,7 +13,7 @@ export interface IOrderRequest {
   date: string;
 }
 
-export const OrderRequestColumns: ColumnsType<IOrderRequest> = [
+export const CanceledOrderColumns: ColumnsType<ICanceledOrder> = [
   {
     title: "Customer",
     dataIndex: "customer_name",

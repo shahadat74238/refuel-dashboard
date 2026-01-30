@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function getPlaceSuggestions(query: string) {
   try {
     const apiKey = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;

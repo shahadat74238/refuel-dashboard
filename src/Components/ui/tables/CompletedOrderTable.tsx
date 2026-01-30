@@ -2,14 +2,14 @@
 import { Table, Input } from "antd";
 import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import {
-  OrderRequestColumns,
-  type IOrderRequest,
-} from "../columns/OrderReguestColumns";
 import { useNavigate } from "react-router-dom";
+import {
+  CompletedOrderColumns,
+  type IComplectOrder,
+} from "../columns/ComplectOrderColumns";
 
 // DUMMY DATA
-const dummyOrders: IOrderRequest[] = [
+const dummyOrders: IComplectOrder[] = [
   {
     _id: "1",
     customer_name: "Tiago Felipe",
@@ -48,7 +48,7 @@ const dummyOrders: IOrderRequest[] = [
   },
 ];
 
-function OrderRequestTable() {
+function CompletedOrderTable() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
@@ -71,7 +71,7 @@ function OrderRequestTable() {
       {/* Table Section */}
       <div className="order-request-table">
         <Table
-          columns={OrderRequestColumns}
+          columns={CompletedOrderColumns}
           dataSource={dummyOrders}
           rowKey="_id"
           rowClassName={"!mt-5"}
@@ -80,7 +80,7 @@ function OrderRequestTable() {
               onClick: () => {
                 navigate(`/order-request/${record._id}`);
               },
-              style: { cursor: "pointer" },
+              style: { cursor: "pointer" }, // Optional: Makes it look clickable
             };
           }}
           pagination={{
@@ -100,4 +100,4 @@ function OrderRequestTable() {
   );
 }
 
-export default OrderRequestTable;
+export default CompletedOrderTable;

@@ -8,7 +8,7 @@ const Dashboard = () => {
     <div className="h-screen bg-secondary-background overflow-hidden p-6">
       <div className="flex h-full gap-4 overflow-hidden">
         {/* Sidebar Container */}
-        <div className="w-[300px]  !overflow-hidden flex flex-col bg-background rounded-2xl">
+        <div className="w-[300px]  !overflow-hidden flex flex-col bg-background rounded-xl">
           {/* 1. Fixed Logo Section */}
           <div className="h-20 pt-10 flex items-center justify-center flex-shrink-0 ">
             <img

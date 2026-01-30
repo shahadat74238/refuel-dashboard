@@ -17,7 +17,7 @@ const ChangePassword = () => {
 
     try {
       const res = await setNewPassword(ChangePasswordDatas).unwrap();
-      
+
       // Handle success based on API response structure
       if (res?.success) {
         toast.success("Password Changed successfully.");
@@ -35,8 +35,8 @@ const ChangePassword = () => {
 
   return (
     <div>
-      <p className="text-black text-2xl font-medium text-center mb-6">
-       Change Password
+      <p className="text-foreground text-2xl font-medium text-center mb-6">
+        Change Password
       </p>
       <Form
         requiredMark={false}
@@ -46,7 +46,7 @@ const ChangePassword = () => {
       >
         <Form.Item
           name="oldPassword"
-          label={<span className="text-black">Old Password</span>}
+          label={<span className="text-foreground">Old Password</span>}
           rules={[
             {
               required: true,
@@ -63,7 +63,7 @@ const ChangePassword = () => {
 
         <Form.Item
           name="newPassword"
-          label={<span className="text-black">New Password</span>}
+          label={<span className="text-foreground">New Password</span>}
           rules={[
             {
               required: true,
@@ -72,7 +72,7 @@ const ChangePassword = () => {
             {
               min: 6,
               message: "Password must be at least 6 characters",
-            }
+            },
           ]}
         >
           <Input.Password
@@ -84,8 +84,8 @@ const ChangePassword = () => {
 
         <Form.Item
           name="confirmPassword"
-          label={<span className="text-black">Confirm Password</span>}
-          dependencies={['newPassword']} // Tells Ant Design to re-validate when newPassword changes
+          label={<span className="text-foreground">Confirm Password</span>}
+          dependencies={["newPassword"]} // Tells Ant Design to re-validate when newPassword changes
           rules={[
             {
               required: true,
@@ -93,10 +93,12 @@ const ChangePassword = () => {
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                if (!value || getFieldValue('newPassword') === value) {
+                if (!value || getFieldValue("newPassword") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('The two passwords do not match!'));
+                return Promise.reject(
+                  new Error("The two passwords do not match!"),
+                );
               },
             }),
           ]}

@@ -1,6 +1,14 @@
 import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, 
-  ResponsiveContainer, PieChart, Pie, Cell
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 import { FiChevronDown } from "react-icons/fi";
 import { Dropdown } from "antd";
@@ -30,7 +38,6 @@ const statusData = [
 const DashboardCharts = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      
       {/* 1. Sales Activity Line Chart (Spans 2 columns) */}
       <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-gray-50">
         <div className="flex justify-between items-start mb-6">
@@ -41,7 +48,8 @@ const DashboardCharts = () => {
                 <span className="w-3 h-3 rounded-full bg-[#23B133]"></span> Fuel
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-full bg-[#1B1B1B]"></span> Diesel
+                <span className="w-3 h-3 rounded-full bg-[#1B1B1B]"></span>{" "}
+                Diesel
               </span>
             </div>
           </div>
@@ -57,18 +65,50 @@ const DashboardCharts = () => {
             <AreaChart data={salesData}>
               <defs>
                 <linearGradient id="colorFuel" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#23B133" stopOpacity={0.1}/>
-                  <stop offset="95%" stopColor="#23B133" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#23B133" stopOpacity={0.1} />
+                  <stop offset="95%" stopColor="#23B133" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: "#999" }} dy={10} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: "#999" }} tickFormatter={(val) => `${val/1000}K`} />
-              <Tooltip 
-                contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+              <CartesianGrid
+                vertical={false}
+                strokeDasharray="3 3"
+                stroke="#f0f0f0"
               />
-              <Area type="monotone" dataKey="fuel" stroke="#23B133" strokeWidth={4} fillOpacity={1} fill="url(#colorFuel)" />
-              <Area type="monotone" dataKey="diesel" stroke="#1B1B1B" strokeWidth={4} fill="transparent" />
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 10, fill: "#999" }}
+                dy={10}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 10, fill: "#999" }}
+                tickFormatter={(val) => `${val / 1000}K`}
+              />
+              <Tooltip
+                contentStyle={{
+                  borderRadius: "10px",
+                  border: "none",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                }}
+              />
+              <Area
+                type="monotone"
+                dataKey="fuel"
+                stroke="#23B133"
+                strokeWidth={4}
+                fillOpacity={1}
+                fill="url(#colorFuel)"
+              />
+              <Area
+                type="monotone"
+                dataKey="diesel"
+                stroke="#1B1B1B"
+                strokeWidth={4}
+                fill="transparent"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -76,12 +116,11 @@ const DashboardCharts = () => {
 
       {/* Right Column Stack */}
       <div className="flex flex-col gap-6">
-        
         {/* 2. Revenue Card */}
         <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-50">
-          <p className="text-sm font-bold text-black">Revenue</p>
+          <p className="text-sm font-bold text-foreground">Revenue</p>
           <p className="text-xs text-gray-500 mb-2">This Year</p>
-          <h2 className="text-3xl font-bold text-black">₦12,897,20</h2>
+          <h2 className="text-3xl font-bold text-foreground">₦12,897,20</h2>
         </div>
 
         {/* 3. Status Donut Chart */}
@@ -94,7 +133,7 @@ const DashboardCharts = () => {
               </div>
             </Dropdown>
           </div>
-          
+
           <div className="h-[200px] flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -116,13 +155,15 @@ const DashboardCharts = () => {
           <div className="flex flex-wrap justify-center gap-4 mt-4 text-xs font-bold">
             {statusData.map((item) => (
               <div key={item.name} className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></span>
+                <span
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: item.color }}
+                ></span>
                 {item.name}
               </div>
             ))}
           </div>
         </div>
-        
       </div>
     </div>
   );

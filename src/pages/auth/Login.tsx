@@ -74,7 +74,7 @@ const Login = () => {
             </Form.Item>
             <Link
               to="/forgot-password"
-              className="!text-black !font-bold hover:underline"
+              className="!text-foreground !font-bold hover:underline"
             >
               Forget Password?
             </Link>

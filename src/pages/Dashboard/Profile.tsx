@@ -1,19 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { Spin } from "antd";
 import ProfileEdit from "../../Components/ui/profile-component/ProfileEdit";
 import ChangePassword from "../../Components/ui/profile-component/ChangePassword";
 import { CameraIcon } from "../../Components/ui/icons/SvgIcons";
-import { useUserMyProfileQuery } from "../../redux/services/profileApis";
 
 const Tabs = ["Edit Profile", "Change Password"] as const;
 
 const Profile = () => {
   const [tab, setTab] = useState<(typeof Tabs)[number]>(Tabs[0]);
-  const { data: profileData, isLoading: profileDataLoading } =
-    useUserMyProfileQuery(undefined);
 
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+
+  console.log(image);
 
   // Handle local image selection and preview
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,17 +30,6 @@ const Profile = () => {
       if (preview) URL.revokeObjectURL(preview);
     };
   }, [preview]);
-
-  // If page is refreshing/loading for the first time
-  if (profileDataLoading) {
-    return (
-      <div className="flex justify-center items-center h-[60vh]">
-        <Spin size="large" />
-      </div>
-    );
-  }
-
-  const userData = profileData?.data;
 
   return (
     <>
@@ -61,7 +49,6 @@ const Profile = () => {
               className="w-full h-full object-cover rounded-full border-2 border-gray-200"
               src={
                 preview ||
-                userData?.profile_picture ||
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s" // 3.
               }
               alt="Profile"
@@ -85,8 +72,8 @@ const Profile = () => {
             />
           </div>
         </div>
-        <p className="text-2xl text-center text-black font-medium mt-3">
-          {userData?.full_name || "User Name"}
+        <p className="text-2xl text-center text-foreground font-medium mt-3">
+          {"User Name"}
         </p>
       </div>
 
@@ -107,7 +94,7 @@ const Profile = () => {
         ))}
       </div>
 
-      <div className="max-w-[481px] mx-auto p-4">
+      {/* <div className="max-w-[481px] mx-auto p-4">
         {tab === "Edit Profile" ? (
           <ProfileEdit
             image={image}
@@ -120,7 +107,7 @@ const Profile = () => {
         ) : (
           <ChangePassword />
         )}
-      </div>
+      </div> */}
     </>
   );
 };

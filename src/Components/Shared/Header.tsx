@@ -4,13 +4,11 @@ import { FiLogOut, FiUser, FiBell } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { BiCaretDown } from "react-icons/bi";
-import { disconnectSocket } from "../../socket";
 import SignoutModal from "../Dialog/SignoutModal";
 
 const handleLogout = () => {
   localStorage.removeItem("accessToken");
   Cookies.remove("accessToken");
-  disconnectSocket();
   if (typeof window !== "undefined") {
     // Note: window.location.reload() might prevent the redirect from finishing
     // depending on browser timing. Usually, one is enough.
@@ -36,7 +34,7 @@ function Header() {
   };
 
   return (
-    <header className="flex h-20 px-8 rounded-2xl items-center bg-background ">
+    <header className="flex h-20 px-8 rounded-xl items-center bg-background ">
       <div className="ml-auto flex items-center space-x-6">
         <div
           onClick={() => navigate("/notification")}
@@ -59,7 +57,7 @@ function Header() {
               <span className="text-base font-bold text-foreground tracking-wide">
                 {user?.name}
               </span>
-              <div className="mt-1 text-foreground px-4 py-1 bg-primary rounded-md text-sm  font-medium">
+              <div className="mt-0.5 text-core-primary  text-sm  font-medium">
                 {"ADMIN"}
               </div>
             </div>

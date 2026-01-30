@@ -1,4 +1,4 @@
-import {  useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom"; // Fixed import
 import { FiChevronDown } from "react-icons/fi";
 import { sidebarLinks } from "./SidebarLink";
@@ -24,7 +24,7 @@ const Sidebar = () => {
     <div className="px-4 pb-10 flex flex-col gap-2 sidebar pt-4">
       {sidebarLinks.map((item) => {
         const hasChildren = item.children && item.children.length > 0;
-        
+
         if (!hasChildren) {
           return (
             <NavLink
@@ -52,7 +52,9 @@ const Sidebar = () => {
             <button
               onClick={() => toggleSubmenu(item.label)}
               className={`flex items-center justify-between h-14 px-5 rounded-sm font-bold transition-all cursor-pointer ${
-                isSubmenuOpen ? "bg-[#9CB6C9] text-black" : "bg-white text-black"
+                isSubmenuOpen
+                  ? "bg-primary text-foreground"
+                  : "bg-white text-foreground"
               }`}
             >
               <div className="flex items-center gap-4">
@@ -68,9 +70,11 @@ const Sidebar = () => {
 
             {/* Submenu Items */}
             <div
-              className={`overflow-hidden transition-all duration-300 flex flex-col bg-white rounded-b-sm shadow-sm`}
+              className={`overflow-hidden transition-all duration-300 flex flex-col bg-white rounded-b-sm `}
               style={{
-                maxHeight: isSubmenuOpen ? `${item.children!.length * 60}px` : "0",
+                maxHeight: isSubmenuOpen
+                  ? `${item.children!.length * 60}px`
+                  : "0",
               }}
             >
               {item.children?.map((child) => {
@@ -79,10 +83,10 @@ const Sidebar = () => {
                   <NavLink
                     key={child.label}
                     to={child.path || "#"}
-                    className={`flex items-center justify-center h-12 text-md font-semibold transition-all border-t border-gray-50 hover:bg-primary/20 ${
+                    className={`flex items-center justify-center h-12 text-md font-semibold transition-all border-t border-gray-50 hover:bg-primary/50 ${
                       isChildActive
-                        ? "bg-[#C4D3DE] text-[#1C3E57]" // Active state for sub-item
-                        : "text-[#255779] hover:bg-gray-50"
+                        ? "bg-primary/50 text-foreground" // Active state for sub-item
+                        : "text-foreground hover:bg-gray-50"
                     }`}
                   >
                     {child.label}

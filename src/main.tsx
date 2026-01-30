@@ -7,7 +7,6 @@ import "./index.css";
 import { ConfigProvider } from "antd";
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import { SocketInitializer } from "./Components/SocketProvider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -42,9 +41,7 @@ createRoot(document.getElementById("root")!).render(
           },
         }}
       >
-        <SocketInitializer>
-          <RouterProvider router={Routes} />
-        </SocketInitializer>
+        <RouterProvider router={Routes} />
         <Toaster position="top-center" toastOptions={{ duration: 1500 }} />
       </ConfigProvider>
     </Provider>
