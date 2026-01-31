@@ -51,7 +51,7 @@ const Login = () => {
             <Input
               size="large"
               placeholder="Email Address"
-              className={"aut-input"}
+              className={"auth-input"}
             />
           </Form.Item>
 
@@ -63,7 +63,7 @@ const Login = () => {
             <Input.Password
               size="large"
               placeholder="Password"
-              className={"aut-input w-80"}
+              className={"auth-input w-80"}
             />
           </Form.Item>
 

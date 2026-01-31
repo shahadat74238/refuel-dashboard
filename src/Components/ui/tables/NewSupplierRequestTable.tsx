@@ -78,7 +78,7 @@ function NewSupplierRequestTable() {
           )}
           dataSource={dummySuppliers}
           rowKey="_id"
-          rowClassName="bg-white hover:shadow-md transition-shadow cursor-pointer"
+          rowClassName="!mt-5"
           onRow={(record) => ({
             onClick: () => {
               setSelectedSupplier(record);

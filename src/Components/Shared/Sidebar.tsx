@@ -34,7 +34,7 @@ const Sidebar = () => {
                 `flex items-center gap-4 h-14 px-5 rounded-lg font-bold transition-all ${
                   isActive
                     ? "bg-primary text-foreground" // Active blue color from your design
-                    : "bg-transparent text-foreground hover:bg-gray-100"
+                    : "bg-transparent text-foreground hover:bg-primary/50"
                 }`
               }
             >

@@ -3,10 +3,10 @@ import Login from "../pages/auth/Login";
 import ForgetPassword from "../pages/auth/ForgetPassword";
 import OneTimePassword from "../pages/auth/OneTimePassword";
 import ResetPassword from "../pages/auth/ResetPassword";
-import { dashboardRoutes } from "./dashboardRoutes";
+import { DashboardRoutes } from "./DashboardRoutes";
 
 export const Routes = createBrowserRouter([
-  dashboardRoutes,
+  DashboardRoutes,
   {
     path: "/login",
     element: <Login />,

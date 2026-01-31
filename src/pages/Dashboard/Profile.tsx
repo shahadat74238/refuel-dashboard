@@ -14,6 +14,14 @@ const Profile = () => {
 
   console.log(image);
 
+  const userData = {
+    full_name: "User Name",
+    email: "admin@gmail.com",
+    contact_no: "+254201525",
+
+    address: "Address",
+  };
+
   // Handle local image selection and preview
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -94,20 +102,20 @@ const Profile = () => {
         ))}
       </div>
 
-      {/* <div className="max-w-[481px] mx-auto p-4">
+      <div className="max-w-[481px] mx-auto p-4">
         {tab === "Edit Profile" ? (
           <ProfileEdit
             image={image}
             data={userData}
-            setImage={(img) => {
-              setImage(img);
-              if (!img) setPreview(null); // Clear preview if image reset
-            }}
+            // setImage={(img) => {
+            //   setImage(img);
+            //   if (!img) setPreview(null); // Clear preview if image reset
+            // }}
           />
         ) : (
           <ChangePassword />
         )}
-      </div> */}
+      </div>
     </>
   );
 };

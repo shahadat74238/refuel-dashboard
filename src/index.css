@@ -66,7 +66,7 @@ body {
 }
 
 @layer utilities {
-  .aut-input {
+  .auth-input {
     @apply !h-[56px] !bg-secondary-background/50 !border-none !rounded-[10px] !font-semibold
   }
 

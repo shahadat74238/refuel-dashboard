@@ -34,7 +34,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white p-8 rounded-xl">
       <p className="text-foreground text-2xl font-medium text-center mb-6">
         Change Password
       </p>
@@ -46,7 +46,6 @@ const ChangePassword = () => {
       >
         <Form.Item
           name="oldPassword"
-          label={<span className="text-foreground">Old Password</span>}
           rules={[
             {
               required: true,
@@ -57,13 +56,12 @@ const ChangePassword = () => {
           <Input.Password
             placeholder="Old Password"
             size="large"
-            className=" p-2 w-full outline-none"
+            className="auth-input"
           />
         </Form.Item>
 
         <Form.Item
           name="newPassword"
-          label={<span className="text-foreground">New Password</span>}
           rules={[
             {
               required: true,
@@ -78,13 +76,12 @@ const ChangePassword = () => {
           <Input.Password
             placeholder="New Password"
             size="large"
-            className=" p-2 w-full outline-none"
+            className="auth-input"
           />
         </Form.Item>
 
         <Form.Item
           name="confirmPassword"
-          label={<span className="text-foreground">Confirm Password</span>}
           dependencies={["newPassword"]} // Tells Ant Design to re-validate when newPassword changes
           rules={[
             {
@@ -106,7 +103,7 @@ const ChangePassword = () => {
           <Input.Password
             placeholder="Confirm Password"
             size="large"
-            className=" p-2 w-full outline-none"
+            className="auth-input"
           />
         </Form.Item>
 

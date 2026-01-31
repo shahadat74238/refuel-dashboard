@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Modal } from "antd";
 import { PiSealWarningFill } from "react-icons/pi";
 import { primaryBtn, secondaryBtn } from "../../constant/btnStyle";

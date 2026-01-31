@@ -3,7 +3,7 @@ import { PageContent, PageLayout } from "../../Layout/PageLayOut";
 
 function NewSupplierRequest() {
   return (
-    <PageLayout title="New supplier request">
+    <PageLayout title="New Supplier Request">
       <PageContent>
         <NewSupplierRequestTable />
       </PageContent>

@@ -3,7 +3,7 @@ import { PageContent, PageLayout } from "../../Layout/PageLayOut";
 
 function AdminManagement() {
   return (
-    <PageLayout title="Admin management">
+    <PageLayout title="Admin Management">
       <PageContent>
         <AdminManagementTable />
       </PageContent>

@@ -14,8 +14,9 @@ import UserManagement from "../pages/Dashboard/UserManagement";
 import NewSupplierRequest from "../pages/Dashboard/NewSupplierRequest";
 import SupplierManagement from "../pages/Dashboard/SupplierManagement";
 import AdminManagement from "../pages/Dashboard/AdminManagement";
+import HelpSupport from "../pages/Dashboard/HelpSupport";
 
-export const dashboardRoutes = {
+export const DashboardRoutes = {
   path: "/",
   errorElement: <PageNotFound />,
   element: (
@@ -36,7 +37,8 @@ export const dashboardRoutes = {
     { path: "/supplier-management", element: <SupplierManagement /> },
     { path: "/admin-management", element: <AdminManagement /> },
     { path: "/notification", element: <Notification /> },
-    { path: "/profile", element: <Profile /> },
+    { path: "/profile-setting", element: <Profile /> },
+    { path: "/support-help", element: <HelpSupport /> },
     { path: "/privacy-policy", element: <PrivacyPolicy /> },
     { path: "/terms-conditions", element: <TermsAndConditions /> },
   ],

@@ -129,7 +129,7 @@ function UserManagementTable() {
   };
 
   return (
-    <div className="space-y-4 p-6 ">
+    <div className="space-y-4 ">
       <Input
         placeholder="Search..."
         prefix={<FiSearch className="text-gray-400 mr-2" />}
@@ -142,9 +142,7 @@ function UserManagementTable() {
           columns={getUserManagementColumns(handleOpenBlockModal)}
           dataSource={dummyUsers}
           rowKey="_id"
-          rowClassName={() =>
-            "bg-white hover:shadow-md transition-shadow cursor-pointer"
-          }
+          rowClassName="!mt-5"
           onRow={(record) => ({
             onClick: () => handleOpenDetails(record),
           })}

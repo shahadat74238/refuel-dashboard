@@ -3,16 +3,9 @@
 import { Button, Form, Input } from "antd";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
+import { primaryBtn } from "../../../constant/btnStyle";
 
-const ProfileEdit = ({
-  image,
-  data,
-  setImage,
-}: {
-  image: File | null;
-  data: any;
-  setImage: (image: File | null) => void;
-}) => {
+const ProfileEdit = ({ image, data }: { image: File | null; data: any }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -59,7 +52,7 @@ const ProfileEdit = ({
   };
 
   return (
-    <div>
+    <div className="bg-white p-8 rounded-xl">
       <p className="text-foreground text-2xl font-medium text-center mb-6">
         Edit Your Profile
       </p>
@@ -71,61 +64,37 @@ const ProfileEdit = ({
       >
         <Form.Item
           name="full_name"
-          label={<span className="text-foreground font-medium">User Name</span>}
           rules={[{ required: true, message: "Name is required" }]}
         >
-          <Input
-            placeholder="User Name"
-            className="p-2 w-full h-11 !rounded-lg border-gray-300"
-          />
+          <Input placeholder="User Name" className="auth-input" />
         </Form.Item>
 
-        <Form.Item
-          name="email"
-          label={<span className="text-foreground font-medium">Email</span>}
-        >
+        <Form.Item name="email">
           <Input
             disabled
             type="email"
             placeholder="Email"
-            className="cursor-not-allowed p-2 w-full h-11 !rounded-lg bg-gray-50 border-gray-300"
+            className="auth-input"
           />
         </Form.Item>
 
-        <Form.Item
-          name="contact_no"
-          label={
-            <span className="text-foreground font-medium">Contact no</span>
-          }
-        >
+        <Form.Item name="contact_no">
           <Input
             type="text"
             placeholder="+99007007007"
-            className="p-2 w-full h-11 !rounded-lg border-gray-300"
+            className="auth-input"
           />
         </Form.Item>
 
-        <Form.Item
-          name="address"
-          label={<span className="text-foreground font-medium">Address</span>}
-        >
+        <Form.Item name="address">
           <Input
             type="text"
             placeholder="Enter your address"
-            className="p-2 w-full h-11 !rounded-lg border-gray-300"
+            className="auth-input"
           />
         </Form.Item>
 
-        <Button
-          htmlType="submit"
-          style={{
-            backgroundColor: "#3A7292",
-            color: "#fff",
-            height: 45,
-            border: "none",
-          }}
-          className="w-full !rounded-lg mt-4 font-semibold text-base hover:opacity-90"
-        >
+        <Button htmlType="submit" style={primaryBtn}>
           Save Change
         </Button>
       </Form>

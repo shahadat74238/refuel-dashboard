@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal, Image, Button } from "antd";
 import { primaryBtn, secondaryBtn } from "../../constant/btnStyle";
 

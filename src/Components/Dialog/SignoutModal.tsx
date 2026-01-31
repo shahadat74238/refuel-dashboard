@@ -50,17 +50,6 @@ const SignoutModal = ({
           </Button>
         </div>
       </div>
-
-      <style>{`
-        .logout-modal .ant-modal-content {
-          border-radius: 16px !important;
-          padding: 24px !important;
-        }
-        .logout-modal .ant-modal-close {
-            top: 20px;
-            right: 20px;
-        }
-      `}</style>
     </Modal>
   );
 };

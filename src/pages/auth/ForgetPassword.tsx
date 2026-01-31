@@ -68,7 +68,7 @@ const ForgetPassword = () => {
             <Input
               size="large"
               placeholder="Email Address"
-              className="aut-input" // This class handles the #F9F9F9 bg and centering from your CSS
+              className="auth-input" // This class handles the #F9F9F9 bg and centering from your CSS
             />
           </Form.Item>
 
