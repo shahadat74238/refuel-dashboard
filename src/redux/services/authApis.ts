@@ -5,43 +5,43 @@ const authApis = baseApis.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation({
       query: (data: any) => ({
-        url: "/api/v1/auth/login",
+        url: "/dashboard/login-admin",
         method: "POST",
         body: data,
       }),
     }),
     changePassword: build.mutation({
       query: (data: any) => ({
-        url: "/api/v1/auth/change-password",
-        method: "POST",
+        url: "/dashboard/change-admin-password",
+        method: "PATCH",
         body: data,
       }),
     }),
     forgotPassword: build.mutation({
       query: (data: any) => ({
-        url: "/api/v1/auth/forget-password",
+        url: "/dashboard/admin-send-verify-code",
         method: "POST",
         body: data,
       }),
     }),
     resendResetCode: build.mutation({
       query: (data: any) => ({
-        url: "/api/v1/auth/resend-otp",
+        url: "/dashboard/admin-send-verify-code",
         method: "POST",
         body: data,
       }),
     }),
     verifyResetOtp: build.mutation({
       query: (data: any) => ({
-        url: "/api/v1/auth/verify-otp",
+        url: "/dashboard/admin-verify-code",
         method: "POST",
         body: data,
       }),
     }),
     resetPassword: build.mutation({
       query: (data: any) => ({
-        url: "/api/v1/auth/reset-password",
-        method: "POST",
+        url: "/dashboard/admin-reset-password",
+        method: "PATCH",
         body: data,
       }),
     }),

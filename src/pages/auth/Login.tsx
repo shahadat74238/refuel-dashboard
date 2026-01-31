@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { IMAGE } from "../../assets/index.image";
 import Cookies from "js-cookie";
 import { primaryBtn } from "../../constant/btnStyle";
+import { useLoginMutation } from "../../redux/services/authApis";
 
 const { Title } = Typography;
 
@@ -12,17 +13,35 @@ const Login = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
+  const [login, { isLoading }] = useLoginMutation();
+
   const onFinish = async (values: any) => {
-    console.log(values, "Form value");
     try {
-      toast.success("Login Successfully");
-      Cookies.set("accessToken", "verySecretToken");
-      navigate("/");
+      // 3. Call the API mutation
+      // We use .unwrap() to handle the result directly in the try/catch block
+      const res = await login(values).unwrap();
+
+      if (res?.success) {
+        toast.success(res?.message || "Login Successfully");
+
+        // 4. Extract token from res.data.accessToken based on your API response structure
+        const token = res?.data?.accessToken;
+
+        if (token) {
+          Cookies.set("accessToken", token, { expires: 7 }); // Set cookie for 7 days
+          navigate("/");
+        }
+      }
     } catch (error: any) {
-      toast.error(error?.data?.message || error?.message || "Failed to login.");
+      // 5. Improved error handling
+      console.error("Login error:", error);
+      toast.error(
+        error?.data?.message ||
+          error?.message ||
+          "Failed to login. Please check your credentials.",
+      );
     }
   };
-
   return (
     <div className="global-padding w-full h-dvh flex max-w-7xl mx-auto items-center justify-center bg-background">
       <Card className="w-full max-w-[450px] !shadow-main  md:!px-10 md:!rounded-[20px] !border-none">
@@ -88,6 +107,7 @@ const Login = () => {
               block
               style={primaryBtn}
               className="hover:!bg-core-primary/60"
+              loading={isLoading}
             >
               Login
             </Button>

@@ -86,14 +86,14 @@ const Profile = () => {
       </div>
 
       {/* Tabs Section */}
-      <div className="mx-auto flex items-center justify-center gap-x-6 my-6 border-b border-gray-100 w-fit px-4">
+      <div className="mx-auto flex items-center justify-center gap-x-6 my-6  w-fit px-4">
         {Tabs.map((item) => (
           <button
             key={item}
             className={`pb-2 text-base cursor-pointer transition-all duration-200 ${
               item === tab
-                ? "text-[#3A7292] font-semibold border-b-2 border-[#3A7292]"
-                : "text-gray-500 hover:text-[#3A7292]"
+                ? "text-core-primary font-semibold border-b-2 border-core-primary"
+                : "text-muted hover:text-core-primary"
             }`}
             onClick={() => setTab(item)}
           >

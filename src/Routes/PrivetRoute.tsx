@@ -17,8 +17,8 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
       try {
         const decoded = jwtDecode<CustomJwtPayload>(token || "");
         if (
-          ("role" in decoded && decoded.role === "ADMIN") ||
-          decoded.role === "SUPER_ADMIN"
+          ("role" in decoded && decoded.role === "Admin") ||
+          decoded.role === "Super_Admin"
         ) {
           setIsAuthorized(true);
         } else {

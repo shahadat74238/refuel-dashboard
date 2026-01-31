@@ -89,7 +89,7 @@ function Header() {
                 onClick={() => setIsProfileOpen(false)}
               >
                 <FiUser className="mr-3 h-5 w-5 text-muted" />
-                <span>Your Profile</span>
+                <span>My Profile</span>
               </Link>
               <div className="border-t border-gray-100"></div>
 

@@ -5,6 +5,7 @@ import { primaryBtn } from "../../constant/btnStyle";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { IMAGE } from "../../assets/index.image";
+import { useResetPasswordMutation } from "../../redux/services/authApis";
 
 const { Title } = Typography;
 
@@ -12,25 +13,40 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
-  // Custom style class for the inputs to match the image exactly
+  // 2. Initialize the mutation
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+
   const inputStyle =
     "![height:56px] !bg-[#F9F9F9] !border-none !rounded-[10px] !text-center !font-bold placeholder:!text-foreground placeholder:!font-bold";
 
   const handleSubmit = async (values: any) => {
-    // Basic validation
-    if (values.password !== values.confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
+    try {
+      // 3. Prepare the payload exactly as the API expects
+      const payload = {
+        newPassword: values.password,
+        confirmPassword: values.confirmPassword,
+      };
+
+      // 4. Call the API
+      const res = await resetPassword(payload).unwrap();
+
+      if (res?.success) {
+        toast.success(res?.message || "Password reset successfully.");
+
+        // Clean up resetToken from cookies
+        Cookies.remove("accessToken");
+
+        // Navigate to login
+        setTimeout(() => {
+          navigate("/login", { replace: true });
+        }, 1500);
+      }
+    } catch (error: any) {
+      // Handle API errors
+      toast.error(
+        error?.data?.message || error?.message || "Failed to reset password."
+      );
     }
-
-    // Success Mock Logic
-    toast.success("Password reset successfully.");
-
-    // Clean up resetToken and navigate to login
-    Cookies.remove("resetToken");
-    setTimeout(() => {
-      navigate("/login", { replace: true });
-    }, 1500);
   };
 
   return (
@@ -54,12 +70,16 @@ const ResetPassword = () => {
           {/* New Password Input */}
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[
+              { required: true, message: "Please input your password!" },
+              { min: 6, message: "Password must be at least 6 characters" },
+            ]}
           >
             <Input.Password
               size="large"
               placeholder="New Password"
               className={inputStyle}
+              disabled={isLoading}
             />
           </Form.Item>
 
@@ -75,7 +95,7 @@ const ResetPassword = () => {
                     return Promise.resolve();
                   }
                   return Promise.reject(
-                    new Error("The two passwords do not match!"),
+                    new Error("The two passwords do not match!")
                   );
                 },
               }),
@@ -85,6 +105,7 @@ const ResetPassword = () => {
               size="large"
               placeholder="Confirm Password"
               className={inputStyle}
+              disabled={isLoading}
             />
           </Form.Item>
 
@@ -94,6 +115,7 @@ const ResetPassword = () => {
               htmlType="submit"
               style={primaryBtn}
               block
+              loading={isLoading} // 5. Added loading state to the button
               className="hover:!bg-core-primary/70 duration-300 transition-colors"
             >
               Continue

@@ -1,29 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Form, Input } from "antd";
-import { useChangePasswordMutation } from "../../../redux/services/authApis";
 import toast from "react-hot-toast";
+import { primaryBtn } from "../../../constant/btnStyle";
+import { useState } from "react";
+import SuccessModal from "../../Dialog/SuccessModal";
+import { useChangePasswordMutation } from "../../../redux/services/authApis";
 
 const ChangePassword = () => {
   const [form] = Form.useForm();
-  const [setNewPassword, { isLoading: isNewPassChange }] =
-    useChangePasswordMutation();
+  const [showModal, setShowModal] = useState(false);
+
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
 
   const onFinish = async (values: any) => {
-    // Map internal form names to the specific snake_case keys required by the API
-    const ChangePasswordDatas = {
-      old_password: values.oldPassword,
-      new_password: values.newPassword,
-    };
-
     try {
-      const res = await setNewPassword(ChangePasswordDatas).unwrap();
+      const res = await changePassword(values).unwrap();
 
-      // Handle success based on API response structure
-      if (res?.success) {
-        toast.success("Password Changed successfully.");
-        form.resetFields(); // Optional: reset form after success
-      } else {
-        throw new Error(res?.message || "Failed to change Password.");
+      if (res?.success || res) {
+        form.resetFields();
+        setShowModal(true);
       }
     } catch (error: any) {
       console.error("Failed to change password:", error);
@@ -49,7 +44,7 @@ const ChangePassword = () => {
           rules={[
             {
               required: true,
-              message: "old password is required",
+              message: "Old password is required",
             },
           ]}
         >
@@ -57,9 +52,11 @@ const ChangePassword = () => {
             placeholder="Old Password"
             size="large"
             className="auth-input"
+            disabled={isLoading}
           />
         </Form.Item>
 
+        {/* Field name: newPassword */}
         <Form.Item
           name="newPassword"
           rules={[
@@ -77,12 +74,14 @@ const ChangePassword = () => {
             placeholder="New Password"
             size="large"
             className="auth-input"
+            disabled={isLoading}
           />
         </Form.Item>
 
+        {/* Field name: confirmPassword */}
         <Form.Item
           name="confirmPassword"
-          dependencies={["newPassword"]} // Tells Ant Design to re-validate when newPassword changes
+          dependencies={["newPassword"]}
           rules={[
             {
               required: true,
@@ -104,24 +103,26 @@ const ChangePassword = () => {
             placeholder="Confirm Password"
             size="large"
             className="auth-input"
+            disabled={isLoading}
           />
         </Form.Item>
 
         <Button
           type="primary"
           htmlType="submit"
-          disabled={isNewPassChange}
-          style={{
-            backgroundColor: "var(--primary)",
-            color: "#fff",
-            height: 40,
-          }}
-          loading={isNewPassChange}
-          className=" w-full"
+          style={primaryBtn}
+          loading={isLoading} // 4. Added loading state
+          className="w-full"
         >
           Update password
         </Button>
       </Form>
+
+      <SuccessModal
+        isModalOpen={showModal}
+        setIsModalOpen={setShowModal}
+        content="Password changed successfully."
+      />
     </div>
   );
 };

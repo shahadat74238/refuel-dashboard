@@ -3,16 +3,14 @@ import { useEffect } from "react";
 import { Button, Form, Input, Card, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useForgotPasswordMutation } from "../../redux/services/authApis";
 import { IMAGE } from "../../assets/index.image";
-import Cookies from "js-cookie";
 import { primaryBtn } from "../../constant/btnStyle";
+import { useForgotPasswordMutation } from "../../redux/services/authApis";
 
 const { Title } = Typography;
 
 const ForgetPassword = () => {
-  const [forgotPassword, { isLoading: isForgotPasswordLoading }] =
-    useForgotPasswordMutation();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
@@ -25,8 +23,8 @@ const ForgetPassword = () => {
       const res = await forgotPassword({ email }).unwrap();
 
       if (res?.success) {
-        Cookies.set("resetToken", res?.data?.resetToken);
         toast.success(res?.message || "Verification code sent successfully.");
+
         navigate(`/otp?email=${email}`);
       }
     } catch (error: any) {
@@ -45,9 +43,10 @@ const ForgetPassword = () => {
           <div className="w-full flex items-center justify-center mb-4">
             <img src={IMAGE.brandLogo} alt="Brand Icon" className="h-20" />
           </div>
-          <Title level={3} className="!font-bold !m-0">
+          <Title level={3} className="!font-bold !m-0 text-center">
             Forget Password
           </Title>
+         
         </div>
 
         <Form
@@ -57,7 +56,7 @@ const ForgetPassword = () => {
           requiredMark={false}
           onFinish={onFinish}
         >
-          {/* Email Input - Styled to match image */}
+          {/* Email Input */}
           <Form.Item
             name="email"
             rules={[
@@ -68,23 +67,35 @@ const ForgetPassword = () => {
             <Input
               size="large"
               placeholder="Email Address"
-              className="auth-input" // This class handles the #F9F9F9 bg and centering from your CSS
+              className="auth-input"
+              disabled={isLoading} // Disable input while sending
             />
           </Form.Item>
 
-          {/* Get OTP Button */}
+          {/* Action Button */}
           <Form.Item className="mt-8">
             <Button
               size="large"
               htmlType="submit"
               block
-              loading={isForgotPasswordLoading}
+              loading={isLoading} // Show spinner while API is working
               style={primaryBtn}
-              className="hover:!bg-core-primary/60"
+              className="hover:!bg-core-primary/60 transition-all"
             >
               Get OTP
             </Button>
           </Form.Item>
+
+          {/* Back to Login Link */}
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              className="text-core-primary font-bold hover:underline"
+            >
+              Back to Login
+            </button>
+          </div>
         </Form>
       </Card>
     </div>

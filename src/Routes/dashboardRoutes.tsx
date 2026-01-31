@@ -15,14 +15,15 @@ import NewSupplierRequest from "../pages/Dashboard/NewSupplierRequest";
 import SupplierManagement from "../pages/Dashboard/SupplierManagement";
 import AdminManagement from "../pages/Dashboard/AdminManagement";
 import HelpSupport from "../pages/Dashboard/HelpSupport";
+import PrivateRoute from "./PrivetRoute";
 
 export const DashboardRoutes = {
   path: "/",
   errorElement: <PageNotFound />,
   element: (
-    // <PrivateRoute>
-    <Dashboard />
-    // </PrivateRoute>
+    <PrivateRoute>
+      <Dashboard />
+    </PrivateRoute>
   ),
   children: [
     { path: "/", element: <DashboardHome /> },

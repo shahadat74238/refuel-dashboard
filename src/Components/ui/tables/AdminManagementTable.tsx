@@ -11,7 +11,7 @@ import {
 } from "../columns/AdminManagementColumns";
 import { primaryBtn } from "../../../constant/btnStyle";
 import AddNewAdminModal from "../../Dialog/AddNewAdminModal";
-import AdminSuccessModal from "../../Dialog/AdminSuccessModal";
+import SuccessModal from "../../Dialog/SuccessModal";
 
 const dummyAdmins: IAdminManagement[] = Array(5)
   .fill(null)
@@ -47,7 +47,7 @@ function AdminManagementTable() {
     setSelectedAdmin(null);
   };
 
-   const handleConfirmAdd = (values: any) => {
+  const handleConfirmAdd = (values: any) => {
     console.log("New Admin Data:", values);
     setIsAddModalOpen(false);
     setIsSuccessModalOpen(true);
@@ -63,13 +63,14 @@ function AdminManagementTable() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <Button
-        size="small"
-        style={primaryBtn}
-        onClick={() => setIsAddModalOpen(true)}
-        className="max-w-36 !text-sm !h-10 !bg-white"
+          size="small"
+          style={primaryBtn}
+          onClick={() => setIsAddModalOpen(true)}
+          className="max-w-36 !text-sm !h-10 !bg-white"
         >
-        <FaRegSquarePlus className="text-core-primary" size={20} />
-          Add Admin</Button>
+          <FaRegSquarePlus className="text-core-primary" size={20} />
+          Add Admin
+        </Button>
       </div>
 
       <div className="custom-user-table">
@@ -97,10 +98,10 @@ function AdminManagementTable() {
         setIsModalOpen={setIsAddModalOpen}
         onConfirm={handleConfirmAdd}
       />
-      <AdminSuccessModal 
-    isModalOpen={isSuccessModalOpen} 
-    setIsModalOpen={setIsSuccessModalOpen} 
-/>
+      <SuccessModal
+        isModalOpen={isSuccessModalOpen}
+        setIsModalOpen={setIsSuccessModalOpen}
+      />
     </div>
   );
 }

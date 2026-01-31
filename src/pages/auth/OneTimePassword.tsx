@@ -2,23 +2,46 @@
 import { Button, Card, Form, Input, Typography, ConfigProvider } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { primaryBtn } from "../../constant/btnStyle";
-
 import toast from "react-hot-toast";
 import { IMAGE } from "../../assets/index.image";
+import Cookies from "js-cookie"; // 1. Import Cookies
+import {
+  useResendResetCodeMutation,
+  useVerifyResetOtpMutation,
+} from "../../redux/services/authApis";
 
 const { Title } = Typography;
 
 const OneTimePassword = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
   const email = searchParams.get("email");
 
+  const [verifyOtp, { isLoading: isVerifying }] = useVerifyResetOtpMutation();
+  const [resendOtp, { isLoading: isResending }] = useResendResetCodeMutation();
+
   const handleSubmit = async (values: any) => {
+    if (!email) {
+      toast.error("Email not found. Please start the process again.");
+      return;
+    }
+
     try {
-      console.log(values, "OTP");
-      toast.success("OTP Verified Successfully");
-      navigate(`/reset-password?email=${email}`);
+      const res = await verifyOtp({
+        email,
+        verifyCode: values.otp,
+      }).unwrap();
+
+      if (res?.success) {
+        // 2. Extract and set the accessToken in cookies
+        const token = res?.data?.accessToken;
+        if (token) {
+          Cookies.set("accessToken", token, { expires: 1 }); // expires in 1 day or as per your requirement
+        }
+
+        toast.success(res?.message || "OTP Verified Successfully");
+        navigate(`/reset-password?email=${email}`);
+      }
     } catch (error: any) {
       toast.error(
         error?.data?.message || error?.message || "Verification failed.",
@@ -27,8 +50,14 @@ const OneTimePassword = () => {
   };
 
   const handleResendResetCode = async () => {
+    if (!email) return;
+
     try {
-      toast.success("Verification code resent successfully.");
+      const res = await resendOtp({ email }).unwrap();
+
+      if (res?.success) {
+        toast.success(res?.message || "Verification code resent successfully.");
+      }
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to resend code.");
     }
@@ -39,7 +68,6 @@ const OneTimePassword = () => {
       theme={{
         components: {
           Input: {
-            // This targets the OTP input boxes specifically
             colorBgContainer: "#F9F9F9",
             activeBorderColor: "transparent",
             hoverBorderColor: "transparent",
@@ -57,6 +85,10 @@ const OneTimePassword = () => {
             <Title level={2} className="!font-bold !m-0">
               Verify Email
             </Title>
+            <p className="text-muted mt-2 text-center">
+              Please enter the 6-digit code sent to <br />
+              <span className="font-semibold text-foreground">{email}</span>
+            </p>
           </div>
 
           <Form layout="vertical" onFinish={handleSubmit}>
@@ -66,14 +98,11 @@ const OneTimePassword = () => {
                 rules={[{ required: true, message: "Please enter the OTP" }]}
                 className="!m-0"
               >
-                {/* 
-                   Setting variant="filled" and styling the background 
-                   to match the off-white box style in the image 
-                */}
                 <Input.OTP
                   length={6}
                   variant="filled"
                   size="large"
+                  disabled={isVerifying}
                   className="[&_input]:!bg-[#F9F9F9] [&_input]:!border-none [&_input]:!h-[64px] [&_input]:!w-[60px] [&_input]:!text-xl [&_input]:!font-bold"
                 />
               </Form.Item>
@@ -85,7 +114,8 @@ const OneTimePassword = () => {
                 htmlType="submit"
                 style={primaryBtn}
                 block
-                className="hover:!bg-core-primary/60 "
+                loading={isVerifying}
+                className="hover:!bg-core-primary/60"
               >
                 Verify Code
               </Button>
@@ -96,10 +126,13 @@ const OneTimePassword = () => {
             Didn't receive a code?{" "}
             <button
               type="button"
-              className="font-medium text-core-primary  hover:underline cursor-pointer"
+              disabled={isResending || isVerifying}
+              className={`font-medium text-core-primary hover:underline cursor-pointer ${
+                isResending ? "opacity-50" : ""
+              }`}
               onClick={handleResendResetCode}
             >
-              Resend code
+              {isResending ? "Sending..." : "Resend code"}
             </button>
           </div>
         </Card>

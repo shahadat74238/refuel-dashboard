@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 const baseApis = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000",
+    baseUrl: "http://10.10.20.57:8001",
     prepareHeaders: (headers) => {
       const accessToken = Cookies.get("accessToken");
       const resetToken = Cookies.get("resetToken");
@@ -17,22 +17,7 @@ const baseApis = createApi({
       return headers;
     },
   }),
-  tagTypes: [
-    "termsAndConditions",
-    "privacyPolicy",
-    "faq",
-    "post",
-    "profile",
-    "subscription",
-    "user",
-    "common",
-    "parcel-owner",
-    "driver",
-    "parcel",
-    "chat", 
-    "message", 
-    "dashboard"
-  ],
+  tagTypes: ["common", "termsAndConditions", "privacyPolicy"],
   endpoints: () => ({}),
 });
 

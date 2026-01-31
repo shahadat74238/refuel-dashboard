@@ -2,24 +2,19 @@ import { Button, Modal } from "antd";
 import { HiCheckBadge } from "react-icons/hi2";
 import { primaryBtn } from "../../constant/btnStyle";
 
-interface IAdminSuccessModalProps {
+interface ISuccessModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
+  content?: string;
 }
 
-const AdminSuccessModal = ({
+const SuccessModal = ({
   isModalOpen,
   setIsModalOpen,
-}: IAdminSuccessModalProps) => {
-  
+  content,
+}: ISuccessModalProps) => {
   const continueBtnStyle = {
     ...primaryBtn,
-    backgroundColor: "#A8E6A2", // Light green from image
-    borderColor: "#A8E6A2",
-    color: "#000",
-    fontWeight: "bold",
-    height: "50px",
-    borderRadius: "12px",
   };
 
   return (
@@ -39,7 +34,7 @@ const AdminSuccessModal = ({
 
         {/* Success Message */}
         <h2 className="text-lg font-bold text-black leading-tight mb-10">
-          New Admin Added <br /> Successfully
+          {content ? content : <span>New Admin Added Successfully</span>}
         </h2>
 
         {/* Continue Button */}
@@ -55,4 +50,4 @@ const AdminSuccessModal = ({
   );
 };
 
-export default AdminSuccessModal;
+export default SuccessModal;

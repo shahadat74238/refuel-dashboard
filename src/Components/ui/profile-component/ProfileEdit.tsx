@@ -2,11 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Form, Input } from "antd";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { primaryBtn } from "../../../constant/btnStyle";
+import SuccessModal from "../../Dialog/SuccessModal";
 
 const ProfileEdit = ({ image, data }: { image: File | null; data: any }) => {
   const [form] = Form.useForm();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -42,8 +44,8 @@ const ProfileEdit = ({ image, data }: { image: File | null; data: any }) => {
       };
 
       console.log(updateData, "Profile data");
-
-      toast.success("Profile updated successfully.");
+      setShowModal(true);
+      // toast.success("Profile updated successfully.");
     } catch (error: any) {
       toast.error(
         error?.data?.message || error?.message || "Failed to update profile.",
@@ -98,6 +100,11 @@ const ProfileEdit = ({ image, data }: { image: File | null; data: any }) => {
           Save Change
         </Button>
       </Form>
+
+      <SuccessModal 
+      isModalOpen={showModal}
+      setIsModalOpen={setShowModal}
+      content="Profile updated successfully."/>
     </div>
   );
 };
