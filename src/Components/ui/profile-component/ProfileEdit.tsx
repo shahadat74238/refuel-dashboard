@@ -1,60 +1,51 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Form, Input } from "antd";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { primaryBtn } from "../../../constant/btnStyle";
 import SuccessModal from "../../Dialog/SuccessModal";
+import { useUpdateProfileMutation } from "../../../redux/services/profileApis";
 
 const ProfileEdit = ({ image, data }: { image: File | null; data: any }) => {
   const [form] = Form.useForm();
   const [showModal, setShowModal] = useState(false);
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
 
+  // Sync API data with Form fields
   useEffect(() => {
     if (data) {
       form.setFieldsValue({
-        full_name: data?.full_name,
+        name: data?.name,
         email: data?.email,
-        contact_no: data?.phone_number || data?.contact_no || "",
-        address: data?.address || "",
+        phone: data?.phone || "",
       });
     }
   }, [data, form]);
 
   const onFinish = async (values: any) => {
     try {
-      // 1. Initialize FormData
       const formData = new FormData();
 
-      // 2. Append the image if it exists
-      // Note: the key 'profile_image' must match what your backend Multer is looking for
+      // Matches the keys in your screenshot
+      formData.append("name", values.name);
+      formData.append("phone", values.phone);
+
       if (image) {
-        formData.append("profile_image", image);
+        formData.append("admin-image", image); // Key from your Postman screenshot
       }
 
-      /**
-       * 3. Append text fields.
-       * We wrap them in a loop or append individually.
-       * Note: 'phone_number' is used to match your backend schema.
-       */
-      const updateData = {
-        full_name: values.full_name,
-        address: values.address,
-        phone_number: values.contact_no,
-      };
+      const res = await updateProfile(formData).unwrap();
 
-      console.log(updateData, "Profile data");
-      setShowModal(true);
-      // toast.success("Profile updated successfully.");
+      if (res?.success) {
+        setShowModal(true);
+      }
     } catch (error: any) {
-      toast.error(
-        error?.data?.message || error?.message || "Failed to update profile.",
-      );
+      toast.error(error?.data?.message || "Failed to update profile.");
     }
   };
 
   return (
-    <div className="bg-white p-8 rounded-xl">
+    <div className="bg-white p-8 rounded-xl shadow-sm">
       <p className="text-foreground text-2xl font-medium text-center mb-6">
         Edit Your Profile
       </p>
@@ -65,46 +56,35 @@ const ProfileEdit = ({ image, data }: { image: File | null; data: any }) => {
         layout="vertical"
       >
         <Form.Item
-          name="full_name"
+          name="name"
           rules={[{ required: true, message: "Name is required" }]}
         >
-          <Input placeholder="User Name" className="auth-input" />
+          <Input placeholder="Full Name" className="auth-input" />
         </Form.Item>
 
         <Form.Item name="email">
-          <Input
-            disabled
-            type="email"
-            placeholder="Email"
-            className="auth-input"
-          />
+          <Input disabled placeholder="Email" className="auth-input" />
         </Form.Item>
 
-        <Form.Item name="contact_no">
-          <Input
-            type="text"
-            placeholder="+99007007007"
-            className="auth-input"
-          />
+        <Form.Item name="phone">
+          <Input placeholder="Phone Number" className="auth-input" />
         </Form.Item>
 
-        <Form.Item name="address">
-          <Input
-            type="text"
-            placeholder="Enter your address"
-            className="auth-input"
-          />
-        </Form.Item>
-
-        <Button htmlType="submit" style={primaryBtn}>
-          Save Change
+        <Button
+          htmlType="submit"
+          style={primaryBtn}
+          loading={isLoading}
+          disabled={isLoading}
+        >
+          {isLoading ? "Saving..." : "Save Changes"}
         </Button>
       </Form>
 
-      <SuccessModal 
-      isModalOpen={showModal}
-      setIsModalOpen={setShowModal}
-      content="Profile updated successfully."/>
+      <SuccessModal
+        isModalOpen={showModal}
+        setIsModalOpen={setShowModal}
+        content="Profile updated successfully."
+      />
     </div>
   );
 };

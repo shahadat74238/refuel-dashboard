@@ -4,14 +4,14 @@ const manageApis = baseApis.injectEndpoints({
   endpoints: (builder) => ({
     getTermsAndConditions: builder.query({
       query: () => ({
-        url: "/api/v1/settings/terms/get",
+        url: "/settings/get-terms-and-conditions",
         method: "GET",
       }),
       providesTags: ["termsAndConditions"],
     }),
     updateTermsAndConditions: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/api/v1/settings/terms/update/${id}`,
+        url: `/settings/update-terms-and-conditions/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -19,20 +19,19 @@ const manageApis = baseApis.injectEndpoints({
     }),
     getPrivacyPolicy: builder.query({
       query: () => ({
-        url: "/api/v1/settings/privacy/get",
+        url: "/settings/get-privacy-policy",
         method: "GET",
       }),
       providesTags: ["privacyPolicy"],
     }),
     updatePrivacyPolicy: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/api/v1/settings/privacy/update/${id}`,
+        url: `/settings/update-privacy-policy/${id}`,
         method: "PATCH",
         body: data,
       }),
       invalidatesTags: ["privacyPolicy"],
     }),
-   
   }),
 });
 
@@ -41,5 +40,4 @@ export const {
   useUpdateTermsAndConditionsMutation,
   useGetPrivacyPolicyQuery,
   useUpdatePrivacyPolicyMutation,
-  
 } = manageApis;

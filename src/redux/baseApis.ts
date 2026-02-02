@@ -17,7 +17,7 @@ const baseApis = createApi({
       return headers;
     },
   }),
-  tagTypes: ["common", "termsAndConditions", "privacyPolicy"],
+  tagTypes: ["profile", "common", "termsAndConditions", "privacyPolicy"],
   endpoints: () => ({}),
 });
 

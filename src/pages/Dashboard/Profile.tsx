@@ -1,26 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
 import ProfileEdit from "../../Components/ui/profile-component/ProfileEdit";
 import ChangePassword from "../../Components/ui/profile-component/ChangePassword";
-import { CameraIcon } from "../../Components/ui/icons/SvgIcons";
+import { AiOutlineCamera } from "react-icons/ai";
+import { useUserMyProfileQuery } from "../../redux/services/profileApis";
 
 const Tabs = ["Edit Profile", "Change Password"] as const;
 
 const Profile = () => {
+  const { data: profileResponse, isLoading } = useUserMyProfileQuery(undefined);
   const [tab, setTab] = useState<(typeof Tabs)[number]>(Tabs[0]);
-
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const base_url = "http://10.10.20.57:8001"
 
-  console.log(image);
-
-  const userData = {
-    full_name: "User Name",
-    email: "admin@gmail.com",
-    contact_no: "+254201525",
-
-    address: "Address",
-  };
+  const userData = profileResponse?.data;
 
   // Handle local image selection and preview
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,69 +25,50 @@ const Profile = () => {
     }
   };
 
-  // Clean up memory when component unmounts or preview changes
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
     };
   }, [preview]);
 
+  if (isLoading) return <div className="text-center py-10">Loading...</div>;
+
+  // Construct image URL (Add your Base URL here if needed)
+  const serverImage = userData?.image 
+    ? `${base_url}/${userData.image}` 
+    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s";
+
   return (
     <>
       <div className="max-w-[700px] mx-auto p-4 rounded-md">
         <div className="w-full flex justify-center items-center">
           <div
-            onClick={() => {
-              if (tab === "Edit Profile") {
-                document.getElementById("fileInput")?.click();
-              }
-            }}
-            className={`w-24 h-24 rounded-full relative ${
-              tab === "Edit Profile" ? "cursor-pointer" : ""
-            }`}
+            onClick={() => tab === "Edit Profile" && document.getElementById("fileInput")?.click()}
+            className={`w-24 h-24 rounded-full relative ${tab === "Edit Profile" ? "cursor-pointer" : ""}`}
           >
             <img
               className="w-full h-full object-cover rounded-full border-2 border-gray-200"
-              src={
-                preview ||
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s" // 3.
-              }
+              src={preview || serverImage}
               alt="Profile"
             />
             {tab === "Edit Profile" && (
-              <button
-                type="button"
-                aria-label="Edit Profile Picture"
-                className="absolute bg-[#3A7292] p-2 rounded-full right-0 bottom-0 text-white shadow-md"
-              >
-                <CameraIcon />
+              <button className="absolute bg-primary cursor-pointer p-2 rounded-full right-0 bottom-0  shadow-md">
+                <AiOutlineCamera />
               </button>
             )}
-
-            <input
-              id="fileInput"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              style={{ display: "none" }}
-            />
+            <input id="fileInput" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
           </div>
         </div>
         <p className="text-2xl text-center text-foreground font-medium mt-3">
-          {"User Name"}
+          {userData?.name || "User Name"}
         </p>
       </div>
 
-      {/* Tabs Section */}
-      <div className="mx-auto flex items-center justify-center gap-x-6 my-6  w-fit px-4">
+      <div className="mx-auto flex items-center justify-center gap-x-6 my-6 w-fit px-4">
         {Tabs.map((item) => (
           <button
             key={item}
-            className={`pb-2 text-base cursor-pointer transition-all duration-200 ${
-              item === tab
-                ? "text-core-primary font-semibold border-b-2 border-core-primary"
-                : "text-muted hover:text-core-primary"
-            }`}
+            className={`pb-2 text-base transition-all ${item === tab ? "text-core-primary font-semibold border-b-2 border-core-primary" : "text-muted"}`}
             onClick={() => setTab(item)}
           >
             {item}
@@ -104,14 +78,7 @@ const Profile = () => {
 
       <div className="max-w-[481px] mx-auto p-4">
         {tab === "Edit Profile" ? (
-          <ProfileEdit
-            image={image}
-            data={userData}
-            // setImage={(img) => {
-            //   setImage(img);
-            //   if (!img) setPreview(null); // Clear preview if image reset
-            // }}
-          />
+          <ProfileEdit image={image} data={userData} />
         ) : (
           <ChangePassword />
         )}
